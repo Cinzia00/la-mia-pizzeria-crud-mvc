@@ -1,0 +1,138 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center py-5">
+    <h1 class="display-4">Welcome</h1>
+</div>
+
+
+<div>
+    <p>
+        1. Dichiarare una variabile valorizzandola con il nostro nome.
+        Dichiarare un'altra variabile valorizzandola con il nostro cognome.
+        Stampare il nostro nome e cognome all'interno di un tag h2.
+    </p>
+
+    @{
+        string nome = "Cinzia";
+        string cognome = "Pulvirenti";
+    }
+
+    <h2>@nome @cognome</h2>
+</div>
+
+
+<div>
+    <p>
+        2. Creare una funzione che stampa la somma dei numeri che vanno da 1 a n (con n passato come parametro - n incluso)
+        Stampare dentro uno span il risultato.
+    </p>
+
+    @{
+
+        int somma(int num)
+        {
+            int somma = 0;
+            for (int i = 0; i < num; i++)
+            {
+                somma = somma + (i + 1);
+                Console.WriteLine(somma);
+            }
+            return somma;
+        }
+
+    }
+        <span>Il risultato della somma è: @somma(10)</span>
+</div>
+
+
+<div>
+    <p>
+        3. Contare quante volte la lettera a è presente nalla frase "nel mezzo del cammin di nostra vita" e stampare questo valore in pagina
+    </p>
+
+    @{
+        string frase = "nel mezzo del cammin di nostra vita";
+
+
+
+        int contaCaratteri(string frase, char lettera)
+        {
+
+            char[] result = frase.ToCharArray();
+            int count = 0;
+            for (int i = 0; i < result.Length; i++)
+            {
+                Console.Write(result[i] + " ");
+                char carattere = result[i];
+
+                if (carattere == lettera)
+                {
+                    count++;
+                }
+
+            }
+            return count;
+
+        }
+
+
+    }
+    <p>Totale lettera a @contaCaratteri("nel mezzo del cammin di nostra vita", 'a')</p>
+
+    
+</div>
+
+
+<div>
+    <p>
+        4. Creare una List<int> di 20 numeri interi (generati random da 1 a 90, 1 e 90 inclusi) e mostrare in pagina solo i numeri compresi tra 20 e 70
+    </p>
+</div>
+
+@{
+    List<int> numeri = new List<int>();
+    Random rnd = new Random();
+
+    for(int i = 0; i < 20; i++)
+    {
+        int numeroRandom = rnd.Next(1, 91);
+        numeri.Add(numeroRandom);
+    }
+    Console.WriteLine(string.Join(", ", numeri));
+}
+
+    @foreach (int interoDaStampare in numeri)
+    {
+    @if (interoDaStampare >= 20 && interoDaStampare <= 70)
+        {
+        <span>@interoDaStampare</span>
+        }
+    }
+
+<div>
+    <p>
+        5. Stampare in pagina la data e l'ora attuale (usando la classe DateTime) con il formato anno-mese-giorno ore:minuti:secondi
+    </p>
+</div>
+
+@{
+    DateTime oraAttuale = DateTime.Now;
+    
+}
+<p>@oraAttuale.ToString("yyyy-MM-dd HH:mm:ss")</p>
+
+
+<div>
+    <p>
+        6. Partendo dalla data di oggi (usando la classe DateTime) stampare in pagina
+        a. la data di 7 giorni fa
+        b. che giorno della settimana è oggi (il risultato dovrà essere il nome del giorno (Lunedì, Martedì, ...)
+        c. che giorno della settimana sarà nello stesso giorno e mese di oggi ma tra un anno (il risultato dovrà essere il nome del giorno (Lunedì, Martedì, ...)
+    </p>
+
+    <p>@oraAttuale.AddDays(-7).ToString("yyyy-MM-dd")</p>
+    <p>@oraAttuale.DayOfWeek</p>
+    <p>@oraAttuale.AddDays(365).DayOfWeek</p>
+</div>
