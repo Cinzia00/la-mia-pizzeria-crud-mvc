@@ -2,100 +2,43 @@
     Layout = "_Layout";
 }
 
+@model List<Pizza>
 
 
+    <div class="d-flex align-items-center justify-content-around gap-4 sfondo-hero">
+        <img width="250" src="~/Img/trasporto-pizza.jpg" />
+        <div class="text-center text-success">
+            <p class="fs-2"><strong>Scegli la tua pizza</strong></p>
+            <p class="fs-2"><strong>A consegnarla ci pensiamo noi</strong></p>
+        </div>
+        <img src="~/Img/pizza-a-casa.jpg"/>
+    </div>
+    <div class="container">
+        <div class="d-flex align-items-center gap-5 my-5">
+        <h1 class="my-5 py-5 text-success fs-1">Menù pizze</h1>
+            <img width="100" height="100" src="~/Img/pizza-menu.jpg"/>
+        </div>
+        <div class="d-flex gap-4">
 
-
-    <main>
-
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-
-                    <h1 class="my-5">Menù pizze</h1>
-
-
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Nome pizza</th>
-                                <th scope="col">Descrizione</th>
-                                <th scope="col">Immagine</th>
-                                <th scope="col">Prezzo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <a href="#">
-                                        <p>Margherita</p>
-                                    </a>
-                                </td>
-                                <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has  ever since the.</td>
-                                <td><img width="200" src="~/Img/pizza-storia.jpg" alt="Immagine pizza margherita" /></td>
-                                <td>€ 7.50</td>
-                                <td><a href="#">Modifica</a>
-                                <td><a href="#">Elimina</a>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">
-                                        <p>Capricciosa</p>
-                                    </a>
-                                </td>
-                                <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard text ever since the.</td>
-                                <td><img width="200" src="~/Img/capricciosa.jpg" alt="Immagine pizza capricciosa" /><</td>
-                                <td>€ 9.50</td>
-                                <td><a href="#">Modifica</a>
-                                <td><a href="#">Elimina</a>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">
-                                        <p>Pistacchiosa</p>
-                                    </a>
-                                </td>
-                                <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard text ever since the.</td>
-                                <td> <img width="200" src="~/Img/pistacchio.jpg" alt="Immagine pizza al pistacchio" /></td>
-                                <td>€ 12.00</td>
-                                <td><a href="#">Modifica</a>
-                                <td><a href="#">Elimina</a>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">
-                                        <p>Vegetariana</p>
-                                    </a>
-                                </td>
-                                <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard text ever since the.</td>
-                                <td><img width="200" src="~/Img/vegetariana.jpg" alt="Immagine pizza vegetariana" /></td>
-                                <td>€ 10.00</td>
-                                <td><a href="#">Modifica</a>
-                                <td><a href="#">Elimina</a>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">
-                                        <p>Biancaneve</p>
-                                    </a>
-                                </td>
-                                <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard text ever since the.</td>
-                                <td><img width="200" src="~/Img/BIANCANEVE.jpeg" alt="Immagine pizza biancaneve" /></td>
-                                <td>€ 6.00</td>
-                                <td><a href="#">Modifica</a>
-                                <td><a href="#">Elimina</a>
-                            </tr>
-
-                        </tbody>
-                    </table>
-
-                </div>
+            @foreach (Pizza pizza in Model)
+            {
+                 <div class="card" style="width: 13rem;">
+                    <img width="200" src="@pizza.Image" class="card-img-top" alt="Foto pizza">
+                    <div class="card-body">
+                        <h5 class="card-title">@pizza.Nome</h5>
+                        <p class="card-text">@pizza.Descrizione</p>
+                        <p class="card-text">€ @pizza.Prezzo</p>
+                    </div>
+                    <div class="card-body">
+                        <a href="#" class="card-link">Ordina</a>
+                    </div>
+                    <a class="btn btn-success" href="@Url.Action("DettagliPizza", "Home", new { id = pizza.Id })">Info pizza</a>
             </div>
+            }
         </div>
 
+    </div>
 
-
-    </main>
 
 
 

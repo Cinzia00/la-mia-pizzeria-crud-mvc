@@ -1,4 +1,5 @@
-﻿using la_mia_pizzeria_static.Models;
+﻿using la_mia_pizzeria_static.Database;
+using la_mia_pizzeria_static.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -15,7 +16,10 @@ namespace la_mia_pizzeria_static.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            using PizzaContext db = new PizzaContext();
+            List<Pizza> pizze = db.Pizze.ToList<Pizza>();
+
+            return View("Index", pizze);
         }
 
         public IActionResult Privacy()
@@ -32,6 +36,23 @@ namespace la_mia_pizzeria_static.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult DettagliPizza(int id)
+        {
+            using (PizzaContext db = new PizzaContext())
+            {
+                Pizza? dettaglioPizza = db.Pizze.Where(pizze => pizze.Id == id).FirstOrDefault();
+
+                if (dettaglioPizza == null)
+                {
+                    return NotFound($"La pizza con id {id} non è stata trovata!");
+                }
+                else
+                {
+                    return View("DettagliPizza", dettaglioPizza);
+                }
+            }
         }
     }
 }
