@@ -1,10 +1,9 @@
-﻿@* 
-@model Pizza
+﻿@model Pizza
 
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h1>Pagina creazione nuovo articolo</h1>
+            <h1 class="text-success py-5">Crea nuova pizza</h1>
         </div>
         <form asp-controller="Pizza" asp-action="Create" method="post">
             @Html.AntiForgeryToken()
@@ -23,8 +22,12 @@
                 <input type="text" class="form-control" asp-for="Image">
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Crea nuova pizza</button>
+            <div class="mb-3">
+                <strong>Prezzo</strong>
+                <input type="text" class="form-control" asp-for="Prezzo">
+                <span asp-validation-for="Prezzo" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-success my-5">Crea nuova pizza</button>
         </form>
     </div>
 </div>
- *@
