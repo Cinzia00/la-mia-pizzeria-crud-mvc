@@ -13,6 +13,10 @@
     <main>
 
         <div class="container">
+            <a class="btn btn-success"
+               href="@Url.Action("Create", "Home")">
+               Crea nuova pizza
+            </a>
             <div class="row">
                 <div class="col-12">
 
@@ -33,13 +37,13 @@
                             {
                                 <tr>
                                     <td>
-                                        <a href="#">
+                                        <a href="@Url.Action("DettagliPizza", "Home", new { id = pizza.Id })">
                                             <p>@pizza.Nome</p>
                                         </a>
                                     </td>
                                     <td>@pizza.Descrizione</td>
                                     <td><img width="200" src="@pizza.Image" alt="Immagine pizza" /></td>
-                                    <td>@pizza.Prezzo</td>
+                                    <td>€ @pizza.Prezzo</td>
                                     <td><a href="#">Modifica</a>
                                     <td><a href="#">Elimina</a>
                                 </tr>

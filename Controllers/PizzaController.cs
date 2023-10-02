@@ -4,6 +4,7 @@ using la_mia_pizzeria_static.Models;
 using la_mia_pizzeria_static.Database;
 using System.Linq;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace la_mia_pizzeria_static.Controllers
 {
@@ -19,4 +20,6 @@ namespace la_mia_pizzeria_static.Controllers
                 return View("Index", pizze);
         }
     }
+
+
 }
