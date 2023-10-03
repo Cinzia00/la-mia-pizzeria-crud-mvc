@@ -25,3 +25,11 @@ a {
 .colore-sfondo {
     background-color: #dc4850;
 }
+
+footer {
+    height: 30px;
+    position: fixed;
+    bottom:0;
+    left:0;
+    right: 0;
+}

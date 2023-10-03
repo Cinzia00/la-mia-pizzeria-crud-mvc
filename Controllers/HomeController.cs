@@ -7,15 +7,17 @@ namespace la_mia_pizzeria_static.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+     
+        private CustomLogger _myLogger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController()
         {
-            _logger = logger;
+            _myLogger = new CustomLogger();
         }
 
         public IActionResult Index()
         {
+            _myLogger.WriteLog("L?utente è sulla pagina Home");
             using PizzaContext db = new PizzaContext();
             List<Pizza> pizze = db.Pizze.ToList<Pizza>();
 
@@ -55,25 +57,5 @@ namespace la_mia_pizzeria_static.Controllers
             }
         }
 
-    
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Create(Pizza nuovaPizza)
-        //{
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View("Create", nuovaPizza);
-        //    }
-
-        //    using (PizzaContext db = new PizzaContext())
-        //    {
-        //        db.Pizze.Add(nuovaPizza);
-        //        db.SaveChanges();
-
-        //        return RedirectToAction("Index");
-        //    }
-        //}
     }
 }
