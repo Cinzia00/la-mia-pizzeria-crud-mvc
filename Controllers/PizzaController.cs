@@ -32,27 +32,45 @@ namespace la_mia_pizzeria_static.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View("Create");
+            using (PizzaContext db = new PizzaContext())
+            {
+                List<Categoria> categorie = db.Categorie.ToList();
+
+                PizzaFormModel model = new PizzaFormModel();
+                model.Pizza = new Pizza();
+                model.Categorie = categorie;
+
+                return View("Create", model); 
+            }
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Pizza nuovaPizza)
+        public IActionResult Create(PizzaFormModel data)
         {
 
             if (!ModelState.IsValid)
             {
-                return View("Create", nuovaPizza);
+                using (PizzaContext db = new PizzaContext())
+                {
+                    List<Categoria> categorie = db.Categorie.ToList();
+                    data.Categorie = categorie;
+
+                    return View("Create", data);
+                }
+
             }
 
             using (PizzaContext db = new PizzaContext())
             {
-                db.Pizze.Add(nuovaPizza);
+                db.Pizze.Add(data.Pizza);
                 db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
+
+
         }
 
 
@@ -70,27 +88,42 @@ namespace la_mia_pizzeria_static.Controllers
                 }
                 else
                 {
-                    return View("Update", pizzaDaModificare);
+                    List<Categoria> categorie = db.Categorie.ToList();
+
+                    PizzaFormModel model = new PizzaFormModel { Pizza =  pizzaDaModificare, Categorie = categorie};
+
+                    return View("Update", model);
                 }
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(int id, Pizza modificaPizza)
+        public IActionResult Update(int id, PizzaFormModel data)
         {
+
+            if(!ModelState.IsValid)
+            {
+                using (PizzaContext db = new PizzaContext())
+                {
+                    List<Categoria> categorie = db.Categorie.ToList();
+                    data.Categorie = categorie;
+                    return View("Update", data);
+                }
+            }
             using (PizzaContext db = new PizzaContext())
             {
                 Pizza? pizzaDaModificare = db.Pizze.Where(pizza => pizza.Id == id).FirstOrDefault();
 
                 if(pizzaDaModificare != null)
                 {
-                    pizzaDaModificare.Nome = modificaPizza.Nome;
-                    pizzaDaModificare.Descrizione = modificaPizza.Descrizione;
-                    pizzaDaModificare.Image = modificaPizza.Image;
-                    pizzaDaModificare.Prezzo = modificaPizza.Prezzo;
-
+                    pizzaDaModificare.Nome = data.Pizza.Nome;
+                    pizzaDaModificare.Descrizione = data.Pizza.Descrizione;
+                    pizzaDaModificare.Image = data.Pizza.Image;
+                    pizzaDaModificare.Prezzo = data.Pizza.Prezzo;
+                    pizzaDaModificare.CategoriaId = data.Pizza.CategoriaId;
                     db.SaveChanges();
+
                     return RedirectToAction("Index");
 
                 }else
@@ -124,6 +157,23 @@ namespace la_mia_pizzeria_static.Controllers
             }
 
 
+        }
+
+        public IActionResult DettaglioPizza(int id)
+        {
+            using (PizzaContext db = new PizzaContext())
+            {
+                Pizza? dettaglioPizza = db.Pizze.Where(pizze => pizze.Id == id).Include(pizza => pizza.Catwgoria).FirstOrDefault();
+
+                if (dettaglioPizza == null)
+                {
+                    return NotFound($"La pizza con id {id} non è stata trovata!");
+                }
+                else
+                {
+                    return View("DettaglioPizza", dettaglioPizza);
+                }
+            }
         }
 
 

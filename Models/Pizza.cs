@@ -35,5 +35,8 @@ namespace la_mia_pizzeria_static.Models
             Image = image;
             Prezzo = prezzo;
         }
+
+        public int? CategoriaId { get; set; }
+        public Categoria? Catwgoria { get; set; }
     }
 }
