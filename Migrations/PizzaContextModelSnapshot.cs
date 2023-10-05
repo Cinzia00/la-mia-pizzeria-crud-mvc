@@ -22,6 +22,21 @@ namespace la_mia_pizzeria_static.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("IngredientePizza", b =>
+                {
+                    b.Property<int>("IngredientiId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("pizzeId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("IngredientiId", "pizzeId");
+
+                    b.HasIndex("pizzeId");
+
+                    b.ToTable("IngredientePizza");
+                });
+
             modelBuilder.Entity("la_mia_pizzeria_static.Models.Categoria", b =>
                 {
                     b.Property<int>("Id")
@@ -32,11 +47,29 @@ namespace la_mia_pizzeria_static.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Categorie");
+                });
+
+            modelBuilder.Entity("la_mia_pizzeria_static.Models.Ingrediente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Ingredienti")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ingredienti");
                 });
 
             modelBuilder.Entity("la_mia_pizzeria_static.Models.Pizza", b =>
@@ -74,10 +107,25 @@ namespace la_mia_pizzeria_static.Migrations
                     b.ToTable("Pizze");
                 });
 
+            modelBuilder.Entity("IngredientePizza", b =>
+                {
+                    b.HasOne("la_mia_pizzeria_static.Models.Ingrediente", null)
+                        .WithMany()
+                        .HasForeignKey("IngredientiId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("la_mia_pizzeria_static.Models.Pizza", null)
+                        .WithMany()
+                        .HasForeignKey("pizzeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("la_mia_pizzeria_static.Models.Pizza", b =>
                 {
                     b.HasOne("la_mia_pizzeria_static.Models.Categoria", "Catwgoria")
-                        .WithMany("Categorie")
+                        .WithMany("Pizze")
                         .HasForeignKey("CategoriaId");
 
                     b.Navigation("Catwgoria");
@@ -85,7 +133,7 @@ namespace la_mia_pizzeria_static.Migrations
 
             modelBuilder.Entity("la_mia_pizzeria_static.Models.Categoria", b =>
                 {
-                    b.Navigation("Categorie");
+                    b.Navigation("Pizze");
                 });
 #pragma warning restore 612, 618
         }

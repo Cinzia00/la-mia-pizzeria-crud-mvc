@@ -15,5 +15,11 @@
                 <span>Nessuna categoria associata</span>
             }
         </p>
+
+        <p><strong>Ingredienti:</strong></p>
+        @foreach(Ingrediente ingrediente in Model.Ingredienti)
+        {
+            <span>@ingrediente.Ingredienti</span>
+        }
     </div>
 </div>

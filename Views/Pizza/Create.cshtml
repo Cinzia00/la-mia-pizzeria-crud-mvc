@@ -28,7 +28,6 @@
                 <span asp-validation-for="Pizza.Prezzo" class="text-danger"></span>
             </div>
 
-
             <div class="mb-3">
                 <strong>Categorie:</strong>
                 <select asp-for="Pizza.CategoriaId" rows="10" class="d-block w-100">
@@ -46,6 +45,17 @@
                     }
                 </select>
             </div>
+
+            <div class="mb-3">
+                <strong>Seleziona ingredienti:</strong>
+                <select asp-for="SelectedIngredientiId"
+                        multiple="multiple"
+                        size="10"
+                        class="form-control mb-2 mr-sm-2 ml-sm-3 leftList"
+                        asp-items="@Model.Ingredienti">
+                </select>
+            </div>
+
             <button type="submit" class="btn btn-success my-5">Crea nuova pizza</button>
         </form>
     </div>
