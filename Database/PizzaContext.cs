@@ -13,7 +13,7 @@ namespace la_mia_pizzeria_static.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=TechBlog2023;Integrated Security=True;TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=Pizze;Integrated Security=True;TrustServerCertificate=True");
         }
     }
 }
