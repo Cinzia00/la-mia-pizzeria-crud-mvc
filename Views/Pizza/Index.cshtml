@@ -13,10 +13,13 @@
     <main>
 
         <div class="container">
-            <a class="btn btn-success"
-               href="@Url.Action("Create", "Pizza")">
-               Crea nuova pizza
-            </a>
+            @if (User.IsInRole("ADMIN"))
+            {
+                <a class="btn btn-success"
+                   href="@Url.Action("Create", "Pizza")">
+                   Crea nuova pizza
+                </a>
+            }
             <div class="row">
                 <div class="col-12">
 
@@ -44,18 +47,21 @@
                                     <td>@pizza.Descrizione</td>
                                     <td><img width="200" src="@pizza.Image" alt="Immagine pizza" /></td>
                                     <td>€ @pizza.Prezzo</td>
-                                    <td><a href="@Url.Action("Update", "Pizza", new { id = pizza.Id})">
-                                            <button type="submit" class="btn btn-outline-secondary btn-sm">Modifica</button>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post">
-                                            @Html.AntiForgeryToken()
-                                            <button type="submit" class="btn btn-outline-danger btn-sm">
-                                                Elimina
-                                            </button>
-                                        </form>
-                                    </td>
+                                    @if (User.IsInRole("ADMIN"))
+                                    {
+                                        <td><a href="@Url.Action("Update", "Pizza", new { id = pizza.Id})">
+                                                <button type="submit" class="btn btn-outline-secondary btn-sm">Modifica</button>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@pizza.Id" method="post">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                    Elimina
+                                                </button>
+                                            </form>
+                                        </td>                                        
+                                    }
                                 </tr>
                             }
 

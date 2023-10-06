@@ -7,9 +7,11 @@ using System.Diagnostics;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Azure;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace la_mia_pizzeria_static.Controllers
 {
+    [Authorize(Roles = "ADMIN,USER")]
     public class PizzaController : Controller
     {
         private CustomLogger _myLogger;
@@ -24,16 +26,16 @@ namespace la_mia_pizzeria_static.Controllers
 
         public IActionResult Index()
         {
-            _myLogger.WriteLog("L'utente è sulla pagian index");
+            _myLogger.WriteLog("L'utente è sulla pagina index");
             using PizzaContext db = new PizzaContext();
 
             List<Pizza> pizze = db.Pizze.ToList<Pizza>();
-
 
                 return View("Index", pizze);
         }
 
 
+        [Authorize(Roles = "ADMIN")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -63,11 +65,11 @@ namespace la_mia_pizzeria_static.Controllers
         }
 
 
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(PizzaFormModel data)
         {
-
             if (!ModelState.IsValid)
             {
                 using (PizzaContext db = new PizzaContext())
@@ -95,7 +97,6 @@ namespace la_mia_pizzeria_static.Controllers
 
             data.Pizza.Ingredienti = new List<Ingrediente>();
 
-      
             using (PizzaContext db = new PizzaContext())
             {
                 if (data.SelectedIngredientiId != null)
@@ -106,7 +107,6 @@ namespace la_mia_pizzeria_static.Controllers
                         Ingrediente? IngredienteDb = db.Ingredienti.Where(Ingrediente => Ingrediente.Id == intIngredienteSelezionato).FirstOrDefault();
 
                         data.Pizza.Ingredienti.Add(IngredienteDb);
-
                     }
                 }
 
@@ -115,15 +115,13 @@ namespace la_mia_pizzeria_static.Controllers
 
                 return RedirectToAction("Index");
             }
-
-
         }
 
 
+        [Authorize(Roles = "ADMIN")]
         [HttpGet] 
         public IActionResult Update(int id)
         {
-
             using (PizzaContext db = new PizzaContext())
             {
                 Pizza? pizzaDaModificare = db.Pizze.Where(pizza => pizza.Id == id).Include(pizza => pizza.Ingredienti).FirstOrDefault();
@@ -156,11 +154,12 @@ namespace la_mia_pizzeria_static.Controllers
             }
         }
 
+
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Update(int id, PizzaFormModel data)
         {
-
             if(!ModelState.IsValid)
             {
                 using (PizzaContext db = new PizzaContext())
@@ -178,7 +177,6 @@ namespace la_mia_pizzeria_static.Controllers
                                 Text = ingrediente.Ingredienti,
                                 Value = ingrediente.Id.ToString(),
                             });
-
                     }
                     return View("Update", data);
                 }
@@ -226,6 +224,8 @@ namespace la_mia_pizzeria_static.Controllers
 
         }
 
+
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
